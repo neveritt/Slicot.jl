@@ -1,3 +1,7 @@
+addons:
+  apt:
+    packages:
+    - liblapacke
 language: cpp
 sudo: required
 compiler:
