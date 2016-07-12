@@ -44,8 +44,8 @@ if F77==false
 end
 
 xx(c) = contains(c, ".so") ? c : "$c.so"
-liblapack = xx(Base.liblapack_name)
-libblas = xx(Base.libblas_name)
+liblapack = xx("liblapack.so")
+libblas = xx("libblas.so")
 
 #Define a template for make.inc.in:
 make_inc =

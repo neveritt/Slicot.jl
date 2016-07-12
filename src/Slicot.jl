@@ -21,12 +21,12 @@ end
 
 ## RAW ROUTINES ##
 #
-# These are just the FORTRAN call strings minus the "INFO" param. 
-# For most cases, you shouldn't need to have any need to 
-# touch these. If your case requires more finese, please file 
+# These are just the FORTRAN call strings minus the "INFO" param.
+# For most cases, you shouldn't need to have any need to
+# touch these. If your case requires more finese, please file
 # an issue, as the simple.jl routines interface may need to be
 # changed to allow for your use case. Assumptions may have been
-# made in the design of of the simple api that were unwarranted. 
+# made in the design of of the simple api that were unwarranted.
 #
 # Possible reasons to still use the raw strings:
 #
