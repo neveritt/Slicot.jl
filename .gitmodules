@@ -1,4 +1,0 @@
-[submodule "slicot"]
-	path = deps/src/slicot
-	url = https://github.com/KTH-AC/slicot.git
-	branch = master
