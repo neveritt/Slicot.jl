@@ -1,19 +1,30 @@
+# Documentation: http://docs.travis-ci.com/user/languages/julia/
+language: julia
+
 addons:
   apt:
     packages:
-    - liblapacke
-language: cpp
-sudo: required
-compiler:
-    - clang
+    - cmake
+    - gfortran
+
+branches:
+  only:
+    - master
+
+os:
+  - linux
+  - osx
+
+julia:
+  - release
+  - nightly
+
 notifications:
-    email: false
-before_install:
-    - sudo add-apt-repository ppa:staticfloat/julia-deps -y
-    - sudo add-apt-repository ppa:staticfloat/julianightlies -y
-    - sudo apt-get update -qq -y
-    - sudo apt-get install libpcre3-dev julia -y
-    - sudo apt-get install gfortran -y
+  email: false
+
+# uncomment the following lines to override the default test script
 script:
-    - julia -e 'Pkg.init(); run(`ln -s $(pwd()) $(Pkg.dir())/Slicot`); Pkg.resolve(); Pkg.build("Slicot")'
-    - julia -e 'using Slicot; @assert isdefined(:Slicot); @assert typeof(Slicot) === Module'
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - julia -e 'Pkg.clone(pwd()); Pkg.build("Slicot")'
+  - julia -e 'using Slicot; @assert isdefined(:Slicot); @assert typeof(Slicot) === Module'
+  - julia -e 'Pkg.test("Slicot")'
