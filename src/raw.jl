@@ -12,9 +12,11 @@
 #     in a 1d array. For example, TD04AD takes NR, which is an integer.
 #     This must be passed in as [some number].
 
-
+module Raw
 
 const libslicotpath = joinpath(Pkg.dir("Slicot"), "deps", "usr", "lib","libslicot.so")
+
+import Slicot: SlicotException, BlasInt, libslicot
 
 function ab01md!(JOBZ::Char, N::Integer, A::Array{Float64,2},
     LDA::Integer, B::Array{Float64,1}, NCONT::Integer,
@@ -3265,9 +3267,12 @@ function mb02jd!(JOB::Char, K::Integer, L::Integer, M::Integer,
             &JOB, &K, &L, &M, &N, &P, &S, TC, &LDTC, TR, &LDTR, Q,
             &LDQ, R, &LDR, DWORK, &LDWORK, INFO)
 
+
     if INFO[1] < 0
+      if !(LDWORK == -1)
         throw(SlicotException(INFO[1], @sprintf("SlicotError in MB02JD: the
         %dth argument had an illegal value", -INFO[1])))
+      end
     end
 end
 
@@ -11311,3 +11316,5 @@ function tg01wd!(N::Integer, M::Integer, P::Integer,
         %dth argument had an illegal value", -INFO[1])))
     end
 end
+
+end     #module

@@ -94,11 +94,11 @@ function tb04ad(rowcol::Char, n::Integer, m::Integer, p::Integer,
     DR = float64(D)
 
     #Call the subroutine
-    INFO = tb04ad!(rowcol, n, m, p, AR, lda, BR, ldb, CR, ldc, DR,
+    INFO = Raw.tb04ad!(rowcol, n, m, p, AR, lda, BR, ldb, CR, ldc, DR,
         ldd, NR, INDEX, DCOEFF, lddcoe, UCOEFF, lduc01, lduc02,
         tol1, tol2, IWORK, DWORK, ldwork)
 
-    arglist = methods(tb04ad!).defs.sig
+    arglist = methods(Raw.tb04ad!).defs.sig
 
     nr = NR[1]
     return (AR[1:nr, 1:nr], BR[1:nr, 1:m], CR[1:p, 1:nr], nr, INDEX,
