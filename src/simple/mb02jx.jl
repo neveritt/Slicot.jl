@@ -11,13 +11,14 @@ numerical rank of T with respect to the given tolerance TOL1.
 Note that the pivoting scheme is local, i.e., only columns
 belonging to the same block in T are permuted.
 """
-function mb02jx(job::Char, col::Array{Float64,2}, row::Array{Float64,2},
-    tol1=0.0, tol2=0.0)
+function mb02jx(col::Array{Float64,2}, row::Array{Float64,2},
+    tol1=0.0, tol2=0.0)  #job::Char,
   ## QR factorization of block Toeplitz matrix  ##
   ## INPUTS/Outputs:
   #--->    job = 'Q' for Q and R, 'R' for only R
   #--->    col = Array of dimension (k*m, l) First column of blocks T.
   #--->    row = Array of dimension (k, l*n) First row of blocks T.
+  job::Char = 'Q'
   l::Int = size(col)[2]
   k::Int = size(row)[1]
   m = convert(Int,size(col)[1]/k)
@@ -34,12 +35,7 @@ function mb02jx(job::Char, col::Array{Float64,2}, row::Array{Float64,2},
   R = Array{Float64}(l*n, min( s*l, min( m*k,n*l )-p*l ))
   ldr = size(R)[1]
 
-
-  if job == 'Q'
-    ldwork = max(3, (m*k + (n-1)*l)*(l + 2*k) + 9*l + max(m*k,(n-1)*l))
-  elseif job == 'R'
-    ldwork = max(3, (n-1)*l*(l + 2*k + 1) + 9*l, m*k*(l+1) + l)
-  end
+  ldwork = max(3, (m*k + (n-1)*l)*(l + 2*k) + 9*l + max(m*k,(n-1)*l))
   DWORK = Array{Float64}(ldwork)
 
   rnk = l*n
@@ -50,9 +46,5 @@ function mb02jx(job::Char, col::Array{Float64,2}, row::Array{Float64,2},
 
   Rt = UpperTriangular(R')
   arglist = methods(Raw.mb02jx!).defs.sig
-  if job == 'Q'
-    return Q, Rt, JPVT
-  elseif job == 'R'
-    return nothing, Rt, JPVT
-  end
+  return Q, Rt, JPVT
 end

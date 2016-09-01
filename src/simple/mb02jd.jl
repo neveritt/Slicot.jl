@@ -6,12 +6,13 @@ Q^T Q = I such that
 
 where T is a k*m-by-l*n block Toeplitz matrix with blocks of size k-by-l.
 """
-function mb02jd(job::Char, col::Array{Float64,2}, row::Array{Float64,2})
+function mb02jd(col::Array{Float64,2}, row::Array{Float64,2})
   ## QR factorization of block Toeplitz matrix  ##
   ## INPUTS/Outputs:
   #--->    job = 'Q' for Q and R, 'R' for only R
   #--->    col = Array of dimension (k*m, l) First column of blocks T.
   #--->    row = Array of dimension (k, l*n) First row of blocks T.
+  job::Char = 'Q'
   l::Int = size(col)[2]
   k::Int = size(row)[1]
   m = convert(Int,size(col)[1]/k)
@@ -40,9 +41,5 @@ function mb02jd(job::Char, col::Array{Float64,2}, row::Array{Float64,2})
 
   Rt = UpperTriangular(R')
   arglist = methods(Raw.mb02jd!).defs.sig
-  if job == 'Q'
-    return Q, Rt
-  elseif job == 'R'
-    return Rt
-  end
+  return Q, Rt
 end
